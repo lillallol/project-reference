@@ -1,0 +1,51 @@
+{
+  "name": "@lillallol/project-reference",
+  "private": "true",
+  "version": "1.0.0",
+  "description": "This is a project reference from which I copy configuration for my other projects.",
+  "main": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
+  "module": "./dist/index.esm.js",
+  "scripts": {
+    "start": "http-server -p 8080 -c-1",
+    "dead-files": "unimported",
+    "spell-check": "cspell \"./**/*\"",
+    "lint": "tsc --noEmit && eslint ./src/**/*.ts --max-warnings=0",
+    "test": "rm -rf ./coverage && npx jest --clearCache && npx jest ./src --coverage --silent",
+    "build-cjs": "tsc -p ./tsconfig.build.json",
+    "build-esm": "rollup -c rollup.config.js",
+    "build": "rm -rf ./dist && npm run build-cjs && npm run build-esm",
+    "pre-bump": "npm run dead-files && npm run spell-check && npm run lint && npm run test && npm run build && git add --all && git commit",
+    "release": "npm run pre-bump && npm publish --access public && npm run after-bump",
+    "bump-patch": "npm run pre-bump && npm version patch && npm publish && npm run after-bump",
+    "bump-minor": "npm run pre-bump && npm version minor && npm publish && npm run after-bump",
+    "bump-major": "npm run pre-bump && npm version major && npm publish && npm run after-bump",
+    "after-bump": "git push origin master && rm -rf ./dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lillallol/project-reference.git"
+  },
+  "keywords": [
+      "some",
+      "random",
+      "keywords"
+  ],
+  "author": "lillallol",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lillallol/project-reference/issues"
+  },
+  "homepage": "https://github.com/lillallol/project-reference#readme",
+  "devDependencies": {
+    "cspell": "^5.0.6",
+    "eslint": "^7.15.0",
+    "http-server": "^0.12.3",
+    "jest": "^26.6.3",
+    "rollup": "^2.35.1",
+    "rollup-plugin-dts": "^2.0.1",
+    "ts-jest": "^26.4.4",
+    "typescript": "^4.1.3",
+    "unimported": "^1.5.0"
+  }
+}
